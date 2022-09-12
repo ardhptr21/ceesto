@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import randomSiswa from '../faker/randomSiswa.js';
+import randomSiswa from '../faker/randomSiswa.mjs';
 
 const prisma = new PrismaClient();
 async function main() {
