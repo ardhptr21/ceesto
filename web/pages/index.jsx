@@ -1,30 +1,13 @@
 import { useState } from 'react';
 import Tr from '../components/tables/Tr';
-
-const datas = [
-  {
-    id: 1,
-    nama: 'Ardhi Putra Pradana',
-    kelas: 'XII SIJA 1',
-    nis: '2919392939',
-  },
-  {
-    id: 2,
-    nama: 'Raul Maldini',
-    kelas: 'XII SIJA 1',
-    nis: '1029392939',
-  },
-  {
-    id: 3,
-    nama: 'Ronaldo Nazario',
-    kelas: 'XII SIJA 1',
-    nis: '2939392939',
-  },
-];
+import { SiMicrosoftexcel } from 'react-icons/si';
+import { BsTrash } from 'react-icons/bs';
+import useSWR from 'swr';
 
 export default function Home() {
   const [selectedFields, setSelectedFields] = useState([]);
   const [isSelectAll, setIsSelectAll] = useState(false);
+  const { data } = useSWR('/api/siswa');
 
   const handleChangeSelectAll = () => {
     setIsSelectAll(!isSelectAll);
@@ -46,31 +29,38 @@ export default function Home() {
         <h1 className="text-4xl font-extrabold">Cheesto Dashboard</h1>
         <p>Kelola dan lihat absensi aplikasi Cheesto</p>
       </div>
-      {(isSelectAll || !!selectedFields.length) && (
-        <div>
-          <button type="button" className="btn btn-error">
+      <div className="space-x-3">
+        <button type="button" className="btn gap-2 btn-success">
+          <SiMicrosoftexcel />
+          Export
+        </button>
+        {(isSelectAll || !!selectedFields.length) && (
+          <button type="button" className="btn btn-error gap-2">
+            <BsTrash />
             Hapus
           </button>
-        </div>
-      )}
+        )}
+      </div>
       <div className="overflow-x-auto w-full rounded-xl border-2">
         <table className="table w-full">
           <thead>
             <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Kelas</th>
+              <th>NIS</th>
               <th>
                 <label>
                   <input type="checkbox" onChange={handleChangeSelectAll} checked={isSelectAll} className="checkbox" />
                 </label>
               </th>
-              <th>Nama</th>
-              <th>Kelas</th>
-              <th>NIS</th>
             </tr>
           </thead>
           <tbody>
-            {datas.map((data) => (
+            {data?.siswa?.map((data, idx) => (
               <Tr
                 key={data.id}
+                idx={idx + 1}
                 checked={isSelectAll ? isSelectAll : selectedFields.includes(data.id)}
                 onChange={(e) => handleChange(e, data.id)}
                 nama={data.nama}
