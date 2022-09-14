@@ -13,7 +13,7 @@ const handler = async (req, res) => {
 
 const handleGET = async (res) => {
   try {
-    const siswa = await prisma.siswa.findMany();
+    const siswa = await prisma.siswa.findMany({ orderBy: [{ createdAt: 'desc' }] });
     return res.status(200).json({ status: 'success', siswa });
   } catch (err) {
     return res.status(500).json({ status: 'error', message: err.message });
