@@ -11,6 +11,10 @@ def split_text(item):
 def extraction():
     scan_img = cv.imread("scan.jpg")
 
+    if scan_img is None:
+        print("Image not found")
+        exit()
+
     extraction = pytesseract.image_to_string(
         scan_img, lang="ind", config="--psm 6 --oem 3"
     )
