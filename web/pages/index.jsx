@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import * as XLSX from 'xlsx';
 
 export default function Home() {
   const [selectedFields, setSelectedFields] = useState([]);
@@ -58,6 +59,13 @@ export default function Home() {
     }
   };
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data?.siswa);
+    XLSX.utils.book_append_sheet(wb, ws, 'Daftar Absen');
+    XLSX.writeFile(wb, 'Daftar Absen.xlsx');
+  };
+
   return (
     <>
       <Head>
@@ -72,7 +80,7 @@ export default function Home() {
           <>
             <div className="flex justify-between items-center">
               <div className="space-x-3">
-                <button type="button" className="btn gap-2 btn-success">
+                <button onClick={handleExport} type="button" className="btn gap-2 btn-success">
                   <SiMicrosoftexcel />
                   Export
                 </button>
