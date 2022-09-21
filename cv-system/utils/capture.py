@@ -16,20 +16,20 @@ def capture(val=0):
             break
 
         gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        blur = cv.GaussianBlur(gray, (5, 5), 0)
-        thresh = cv.threshold(blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
-        kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
-        opening = cv.morphologyEx(thresh, cv.MORPH_OPEN, kernel, iterations=1)
+        # thresh = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
+        # kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
+        # opening = cv.morphologyEx(thresh, cv.MORPH_OPEN, kernel, iterations=1)
 
-        cv.imshow("capture", opening)
+        cv.imshow("capture", gray)
 
         key = cv.waitKey(1)
         if key == ord("q") or key == 27:
-            break
+            return "break"
         elif key == ord("s"):
-            cv.imwrite("scan.jpg", opening)
+            noiseless = cv.fastNlMeansDenoising(gray, None, 20, 7, 21)
+            cv.imwrite("scan.jpg", noiseless)
             sleep(0.5)
-            break
+            return "break"
 
     cap.release()
     cv.destroyAllWindows()

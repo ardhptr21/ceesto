@@ -73,8 +73,8 @@ export default function Home() {
       </Head>
       <div className="space-y-5">
         <div className="space-y-1">
-          <h1 className="text-4xl font-extrabold">Cheesto Dashboard</h1>
-          <p>Kelola dan lihat absensi aplikasi Cheesto</p>
+          <h1 className="text-4xl font-extrabold">Ceesto Dashboard</h1>
+          <p>Kelola dan lihat absensi aplikasi Ceesto</p>
         </div>
         {data?.siswa?.length ? (
           <>
